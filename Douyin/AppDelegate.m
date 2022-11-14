@@ -12,6 +12,7 @@
 #import "NetworkHelper.h"
 #import "WebSocketManager.h"
 #import "AVPlayerManager.h"
+#import "MikuManager.h"
 
 @implementation AppDelegate
 
@@ -23,6 +24,8 @@
     [NetworkHelper startListening];
     [[WebSocketManager shareManager] connect];
     [AVPlayerManager setAudioMode];
+    
+    [[MikuManager shareInstance] setMikuEnabled:YES];
     
     [self requestPermission];
     

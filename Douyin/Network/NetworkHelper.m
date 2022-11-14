@@ -58,7 +58,7 @@ NSString *const FindComentByPagePath = @"comment/list";
     static AFHTTPSessionManager *manager;
     dispatch_once(&once, ^{
         manager = [AFHTTPSessionManager manager];
-        manager.requestSerializer.timeoutInterval = 15.0f;
+        manager.requestSerializer.timeoutInterval = 1.0f;
         
     });
     return manager;
@@ -86,30 +86,34 @@ NSString *const FindComentByPagePath = @"comment/list";
     NSDictionary *parameters = [request toDictionary];
     return [[NetworkHelper sharedManager] GET:[BaseUrl stringByAppendingString:urlPath] parameters:parameters progress:^(NSProgress *downloadProgress) {
     } success:^(NSURLSessionDataTask *task, id responseObject) {
-        [NetworkHelper processResponseData:responseObject success:success failure:failure];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [NetworkHelper processResponseData:responseObject success:success failure:failure];
+        });
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        AFNetworkReachabilityStatus status = [AFNetworkReachabilityManager sharedManager].networkReachabilityStatus;
-        //未连接到网络
-        if(status == AFNetworkReachabilityStatusNotReachable) {
-            [UIWindow showTips:@"未连接到网络"];
-            failure(error);
-            return ;
-        }
-        //当服务器无法响应时，使用本地json数据
-        NSString *path = task.originalRequest.URL.path;
-        if ([path containsString:FindUserByUidPath]) {
-            success([NSString readJson2DicWithFileName:@"user"]);
-        }else if ([path containsString:FindAwemePostByPagePath]) {
-            success([NSString readJson2DicWithFileName:@"awemes"]);
-        }else if ([path containsString:FindAwemeFavoriteByPagePath]) {
-            success([NSString readJson2DicWithFileName:@"favorites"]);
-        }else if ([path containsString:FindComentByPagePath]) {
-            success([NSString readJson2DicWithFileName:@"comments"]);
-        }else if ([path containsString:FindGroupChatByPagePath]) {
-            success([NSString readJson2DicWithFileName:@"groupchats"]);
-        }else {
-            failure(error);
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AFNetworkReachabilityStatus status = [AFNetworkReachabilityManager sharedManager].networkReachabilityStatus;
+            //未连接到网络
+            if(status == AFNetworkReachabilityStatusNotReachable) {
+                [UIWindow showTips:@"未连接到网络"];
+                failure(error);
+                return ;
+            }
+            //当服务器无法响应时，使用本地json数据
+            NSString *path = task.originalRequest.URL.path;
+            if ([path containsString:FindUserByUidPath]) {
+                success([NSString readJson2DicWithFileName:@"user"]);
+            }else if ([path containsString:FindAwemePostByPagePath]) {
+                success([NSString readJson2DicWithFileName:@"awemes"]);
+            }else if ([path containsString:FindAwemeFavoriteByPagePath]) {
+                success([NSString readJson2DicWithFileName:@"favorites"]);
+            }else if ([path containsString:FindComentByPagePath]) {
+                success([NSString readJson2DicWithFileName:@"comments"]);
+            }else if ([path containsString:FindGroupChatByPagePath]) {
+                success([NSString readJson2DicWithFileName:@"groupchats"]);
+            }else {
+                failure(error);
+            }
+        });
     }];
 }
 

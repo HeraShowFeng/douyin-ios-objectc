@@ -32,6 +32,9 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
 @property (nonatomic, assign) NSTimeInterval           lastTapTime;
 @property (nonatomic, assign) CGPoint                  lastTapPoint;
 
+@property (nonatomic, assign) NSTimeInterval startTime;
+@property (nonatomic, assign) NSTimeInterval connectTime;
+@property (nonatomic, strong) NSMutableDictionary *jsonDic;
 @end
 
 @implementation AwemeListCell
@@ -43,6 +46,11 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
         self.backgroundColor = ColorBlackAlpha1;
         _lastTapTime = 0;
         _lastTapPoint = CGPointZero;
+        
+        _startTime = 0;
+        _connectTime = 0;
+        _jsonDic = [NSMutableDictionary dictionary];
+        
         [self initSubViews];
     }
     return self;
@@ -436,12 +444,21 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
     //播放进度更新
 }
 
--(void)onPlayItemStatusUpdate:(AVPlayerItemStatus)status {
+-(void)onPlayItemStatusUpdate:(AVPlayerItemStatus)status url:(NSString *)url {
+    NSLog(@"hera -- url is %@", url);
     switch (status) {
         case AVPlayerItemStatusUnknown:
+            _startTime = [[NSDate date] timeIntervalSince1970];
             [self startLoadingPlayItemAnim:YES];
             break;
         case AVPlayerItemStatusReadyToPlay:
+            _connectTime = [[NSDate date] timeIntervalSince1970] - _startTime;
+            if (url.length == 0 && [url isEqualToString:@""]) {
+                NSLog(@"hera -- url is nil!");
+            } else{
+                [_jsonDic setObject:[NSString stringWithFormat:@"%.4f", _connectTime] forKey:url];
+                [self writeFile:[NSDictionary dictionaryWithDictionary:_jsonDic]];
+            }
             [self startLoadingPlayItemAnim:NO];
             
             _isPlayerReady = YES;
@@ -457,6 +474,28 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
             break;
         default:
             break;
+    }
+}
+
+- (void)writeFile:(NSDictionary *)dic {
+    BOOL success = [NSJSONSerialization isValidJSONObject:dic];
+    if (success) {
+        NSError *error = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&error];
+
+        NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+        NSString *fileFolder = [path stringByAppendingPathComponent:@"Miku"];
+        
+        BOOL isDir = NO;
+        BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:fileFolder isDirectory:&isDir];
+        if (!isDir || !exist) {
+            if ([[NSFileManager defaultManager] createDirectoryAtPath:fileFolder withIntermediateDirectories:NO attributes:nil error:&error]) {
+                NSString *savePath = [fileFolder stringByAppendingPathComponent:@"miku-connect-time.json"];
+                [jsonData writeToFile:savePath atomically:YES];
+            } else{
+                NSLog(@"hera -- create directory error %@", error);
+            }
+        }
     }
 }
 
@@ -502,6 +541,7 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
 
 - (void)startDownloadBackgroundTask {
     NSString *playUrl = [NetworkHelper isWifiStatus] ? _aweme.video.play_addr.url_list.firstObject : _aweme.video.play_addr_lowbr.url_list.firstObject;
+    NSLog(@"hera -- playUrl %@", playUrl);
     [_playerView setPlayerWithUrl:playUrl];
 }
 

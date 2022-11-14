@@ -9,6 +9,7 @@
 #import "AVPlayerView.h"
 #import "NetworkHelper.h"
 #import "AVPlayerManager.h"
+#import "MikuManager.h"
 
 @interface AVPlayerView () <NSURLSessionTaskDelegate, NSURLSessionDataDelegate,  AVAssetResourceLoaderDelegate>
 @property (nonatomic ,strong) NSURL                *sourceURL;              //视频路径
@@ -65,8 +66,11 @@
 
 //设置播放路径
 -(void)setPlayerWithUrl:(NSString *)url {
+    // Miku
+    NSString *mikuUrl = [[MikuManager shareInstance] getProxyURL:url];
+    
     //播放路径
-    self.sourceURL = [NSURL URLWithString:url];
+    self.sourceURL = [NSURL URLWithString:mikuUrl];
     
     //获取路径schema
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.sourceURL resolvingAgainstBaseURL:NO];
@@ -319,7 +323,7 @@
         }
         //视频播放状体更新方法回调
         if(_delegate) {
-            [_delegate onPlayItemStatusUpdate:_playerItem.status];
+            [_delegate onPlayItemStatusUpdate:_playerItem.status url:_sourceURL.absoluteString];
         }
     }else {
         return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

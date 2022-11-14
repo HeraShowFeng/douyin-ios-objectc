@@ -17,7 +17,7 @@
 -(void)onProgressUpdate:(CGFloat)current total:(CGFloat)total;
 
 //播放状态更新回调方法
--(void)onPlayItemStatusUpdate:(AVPlayerItemStatus)status;
+-(void)onPlayItemStatusUpdate:(AVPlayerItemStatus)status url:(NSString *)url;
 
 @end
 

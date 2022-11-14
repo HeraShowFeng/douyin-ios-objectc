@@ -332,61 +332,70 @@ NSString * const kAwemeCollectionCell  = @"AwemeCollectionCell";
     __weak typeof (self) wself = self;
     if(_tabIndex == 0) {
         [NetworkHelper getWithUrlPath:FindAwemePostByPagePath request:request success:^(id data) {
-            if(wself.tabIndex != 0) {
-                return;
-            }
-            AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:data error:nil];
-            NSArray<Aweme *> *array = response.data;
-            wself.pageIndex++;
-            
-            [UIView setAnimationsEnabled:NO];
-            [wself.collectionView performBatchUpdates:^{
-                [wself.workAwemes addObjectsFromArray:array];
-                NSMutableArray<NSIndexPath *> *indexPaths = [NSMutableArray array];
-                for(NSInteger row = wself.workAwemes.count - array.count; row<wself.workAwemes.count; row++) {
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:1];
-                    [indexPaths addObject:indexPath];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(wself.tabIndex != 0) {
+                    return;
                 }
-                [wself.collectionView insertItemsAtIndexPaths:indexPaths];
-            } completion:^(BOOL finished) {
-                [UIView setAnimationsEnabled:YES];
-            }];
-            
-            [wself.loadMore endLoading];
-            if(!response.has_more) {
-                [wself.loadMore loadingAll];
-            }
+                NSLog(@"hera -- data %@", data);
+                AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:data error:nil];
+                NSArray<Aweme *> *array = response.data;
+                wself.pageIndex++;
+                
+                [UIView setAnimationsEnabled:NO];
+                [wself.collectionView performBatchUpdates:^{
+                    [wself.workAwemes addObjectsFromArray:array];
+                    NSMutableArray<NSIndexPath *> *indexPaths = [NSMutableArray array];
+                    for(NSInteger row = wself.workAwemes.count - array.count; row<wself.workAwemes.count; row++) {
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:1];
+                        [indexPaths addObject:indexPath];
+                    }
+                    [wself.collectionView insertItemsAtIndexPaths:indexPaths];
+                } completion:^(BOOL finished) {
+                    [UIView setAnimationsEnabled:YES];
+                }];
+                
+                [wself.loadMore endLoading];
+                if(!response.has_more) {
+                    [wself.loadMore loadingAll];
+                }
+            });
         } failure:^(NSError *error) {
-            [wself.loadMore loadingFailed];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [wself.loadMore loadingFailed];
+            });
         }];
     }else {
         [NetworkHelper getWithUrlPath:FindAwemeFavoriteByPagePath request:request success:^(id data) {
-            if(wself.tabIndex != 1) {
-                return;
-            }
-            AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:data error:nil];
-            NSArray<Aweme *> *array = response.data;
-            wself.pageIndex++;
-            
-            [UIView setAnimationsEnabled:NO];
-            [wself.collectionView performBatchUpdates:^{
-                [wself.favoriteAwemes addObjectsFromArray:array];
-                NSMutableArray<NSIndexPath *> *indexPaths = [NSMutableArray array];
-                for(NSInteger row = wself.favoriteAwemes.count - array.count; row<wself.favoriteAwemes.count; row++) {
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:1];
-                    [indexPaths addObject:indexPath];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(wself.tabIndex != 1) {
+                    return;
                 }
-                [wself.collectionView insertItemsAtIndexPaths:indexPaths];
-            } completion:^(BOOL finished) {
-                [UIView setAnimationsEnabled:YES];
-            }];
-            
-            [wself.loadMore endLoading];
-            if(!response.has_more) {
-                [wself.loadMore loadingAll];
-            }
+                AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:data error:nil];
+                NSArray<Aweme *> *array = response.data;
+                wself.pageIndex++;
+                
+                [UIView setAnimationsEnabled:NO];
+                [wself.collectionView performBatchUpdates:^{
+                    [wself.favoriteAwemes addObjectsFromArray:array];
+                    NSMutableArray<NSIndexPath *> *indexPaths = [NSMutableArray array];
+                    for(NSInteger row = wself.favoriteAwemes.count - array.count; row<wself.favoriteAwemes.count; row++) {
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:1];
+                        [indexPaths addObject:indexPath];
+                    }
+                    [wself.collectionView insertItemsAtIndexPaths:indexPaths];
+                } completion:^(BOOL finished) {
+                    [UIView setAnimationsEnabled:YES];
+                }];
+                
+                [wself.loadMore endLoading];
+                if(!response.has_more) {
+                    [wself.loadMore loadingAll];
+                }
+            });
         } failure:^(NSError *error) {
-            [wself.loadMore loadingFailed];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [wself.loadMore loadingFailed];
+            });
         }];
     }
 }

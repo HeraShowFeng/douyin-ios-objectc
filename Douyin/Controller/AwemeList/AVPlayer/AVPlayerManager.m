@@ -36,6 +36,7 @@
     
     return self;
 }
+
 - (void)play:(AVPlayer *)player {
     [_playerArray enumerateObjectsUsingBlock:^(AVPlayer * obj, NSUInteger idx, BOOL *stop) {
         [obj pause];
