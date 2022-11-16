@@ -99,23 +99,23 @@ static const CGFloat kImageMsgPadding         = 8;
     
     }else {
         [_progressView setHidden:NO];
-        [_imageMsg setImageWithURL:[NSURL URLWithString:chat.pic_medium.url] progressBlock:^(CGFloat percent) {
-            [wself.progressView setProgress:percent];
-        } completedBlock:^(UIImage *image, NSError *error) {
-            if(!error) {
-                wself.chat.picImage = image;
-                wself.rectImage = image;
-                wself.imageMsg.image = [image drawRoundedRectImage:kImageMsgCornerRadius width:wself.imageWidth height:wself.imageHeight];
-                [wself updateImageFrame];
-                [wself.progressView setHidden:YES];
-            }else {
-                [wself.progressView setTipHidden:NO];
-            }
-        }];
+//        [_imageMsg setImageWithURL:[NSURL URLWithString:chat.pic_medium.url] progressBlock:^(CGFloat percent) {
+//            [wself.progressView setProgress:percent];
+//        } completedBlock:^(UIImage *image, NSError *error) {
+//            if(!error) {
+//                wself.chat.picImage = image;
+//                wself.rectImage = image;
+//                wself.imageMsg.image = [image drawRoundedRectImage:kImageMsgCornerRadius width:wself.imageWidth height:wself.imageHeight];
+//                [wself updateImageFrame];
+//                [wself.progressView setHidden:YES];
+//            }else {
+//                [wself.progressView setTipHidden:NO];
+//            }
+//        }];
     }
-    [_avatar setImageWithURL:[NSURL URLWithString:chat.visitor.avatar_thumbnail.url] completedBlock:^(UIImage *image, NSError *error) {
-        wself.avatar.image = [image drawCircleImage];
-    }];
+//    [_avatar setImageWithURL:[NSURL URLWithString:chat.visitor.avatar_thumbnail.url] completedBlock:^(UIImage *image, NSError *error) {
+//        wself.avatar.image = [image drawCircleImage];
+//    }];
 }
 
 -(void)updateUploadStatus:(GroupChat *)chat {

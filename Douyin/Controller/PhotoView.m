@@ -24,16 +24,16 @@
         
         _imageView = [[UIImageView alloc] initWithFrame:ScreenFrame];
         __weak typeof(self) wself = self;
-        [_imageView setImageWithURL:[NSURL URLWithString:urlPath] progressBlock:^(CGFloat persent) {
-            [wself.progressView setProgress:persent];
-        } completedBlock:^(UIImage *image, NSError *error) {
-            if(!error) {
-                [wself.imageView setImage:image];
-                [wself.progressView setHidden:YES];
-            }else {
-                [wself.progressView setTipHidden:NO];
-            }
-        }];
+//        [_imageView setImageWithURL:[NSURL URLWithString:urlPath] progressBlock:^(CGFloat persent) {
+//            [wself.progressView setProgress:persent];
+//        } completedBlock:^(UIImage *image, NSError *error) {
+//            if(!error) {
+//                [wself.imageView setImage:image];
+//                [wself.progressView setHidden:YES];
+//            }else {
+//                [wself.progressView setTipHidden:NO];
+//            }
+//        }];
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:_imageView];
         

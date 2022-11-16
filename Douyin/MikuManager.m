@@ -14,7 +14,6 @@
 @interface MikuManager ()
 
 @property (nonatomic, strong) NSMutableDictionary *taskDic;
-@property (nonatomic, strong) NSMutableDictionary *resultDic;
 @property (nonatomic, assign) BOOL useMikuEnabled;
 
 @end
@@ -34,7 +33,6 @@
 - (instancetype)init{
     if(self =[super init]){
         _taskDic = [[NSMutableDictionary alloc] init];
-        _resultDic = [[NSMutableDictionary alloc] init];
         
         MikuConfig * config = [[MikuConfig alloc] init];
         config.cacheConfig.cacheSize = INT64_MAX;
@@ -48,30 +46,11 @@
     if ([urlStr isEqualToString:@""] || urlStr.length == 0) {
         return nil;
     }
-//    return urlStr;
     
     NSString *mikuUrl = urlStr;
     
     if (_useMikuEnabled) {
-        MikuTask *existTask = [_taskDic objectForKey:urlStr];
-        if (existTask) {
-            MikuResult *existResult = [_resultDic objectForKey:urlStr];
-            NSInputStream *inputStream = [existResult stream];
-            NSLog(@"hera -- file size %f size %f contentType %@", existResult.fileSize, existResult.size, existResult.contentType);
-            mikuUrl = [_client makeProxyURL:urlStr].absoluteString;
-        } else {
-            MikuTask *task = [_client createTask:urlStr range:nil];
-            dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                [_taskDic setObject:task forKey:urlStr];
-                MikuResult *result = [task start];
-                [_resultDic setObject:result forKey:urlStr];
-                dispatch_semaphore_signal(sem);
-            });
-            dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-            mikuUrl = [_client makeProxyURL:urlStr].absoluteString;
-            NSLog(@"hera -- %@ -- %@", urlStr, mikuUrl);
-        }
+        mikuUrl = [_client makeProxyURL:urlStr].absoluteString;
     }
     return mikuUrl;
 }

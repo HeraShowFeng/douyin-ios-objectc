@@ -109,10 +109,10 @@ static const CGFloat kTextMsgPadding         = 8;
     }
     
     __weak __typeof(self) wself = self;
-    [_avatar setImageWithURL:[NSURL URLWithString:chat.visitor.avatar_thumbnail.url] progressBlock:^(CGFloat persent) {
-    } completedBlock:^(UIImage *image, NSError *error) {
-        wself.avatar.image = [image drawCircleImage];
-    }];
+//    [_avatar setImageWithURL:[NSURL URLWithString:chat.visitor.avatar_thumbnail.url] progressBlock:^(CGFloat persent) {
+//    } completedBlock:^(UIImage *image, NSError *error) {
+//        wself.avatar.image = [image drawCircleImage];
+//    }];
 }
 
 - (void)startAnim {

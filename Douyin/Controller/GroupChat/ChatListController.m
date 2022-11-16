@@ -127,8 +127,8 @@ NSString * const kTextMessageCell   = @"TextMessageCell";
     GroupChatListRequest *request = [GroupChatListRequest new];
     request.page = pageIndex;
     request.size = pageSize;
-    [NetworkHelper getWithUrlPath:FindGroupChatByPagePath request:request success:^(id data) {
-        GroupChatListResponse *response = [[GroupChatListResponse alloc] initWithDictionary:data error:nil];
+//    [NetworkHelper getWithUrlPath:FindGroupChatByPagePath request:request success:^(id data) {
+        GroupChatListResponse *response = [[GroupChatListResponse alloc] initWithDictionary:[NSString readJson2DicWithFileName:@"groupchats"] error:nil];
         NSArray<GroupChat *> *array = response.data;
         
         NSInteger preCount = wself.data.count;
@@ -149,9 +149,9 @@ NSString * const kTextMessageCell   = @"TextMessageCell";
             [wself.refreshControl loadAll];
         }
         [UIView setAnimationsEnabled:YES];
-    } failure:^(NSError *error) {
-        [wself.refreshControl endRefresh];
-    }];
+//    } failure:^(NSError *error) {
+//        [wself.refreshControl endRefresh];
+//    }];
 }
 
 - (void)processData:(NSArray<GroupChat *> *)data {
@@ -208,14 +208,14 @@ NSString * const kTextMessageCell   = @"TextMessageCell";
     DeleteGroupChatRequest *request = [DeleteGroupChatRequest new];
     request.udid = UDID;
     request.id = chat.id;
-    [NetworkHelper deleteWithUrlPath:DeleteGroupChatByIdPath request:request success:^(id data) {
+//    [NetworkHelper deleteWithUrlPath:DeleteGroupChatByIdPath request:request success:^(id data) {
         [wself.tableView beginUpdates];
         [wself.data removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexPaths.firstObject.row, indexPaths.count)]];
         [wself.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationRight];
         [wself.tableView endUpdates];
-    } failure:^(NSError *error) {
-        [UIWindow showTips:@"删除失败"];
-    }];
+//    } failure:^(NSError *error) {
+//        [UIWindow showTips:@"删除失败"];
+//    }];
 }
 
 - (void)scrollToBottom {

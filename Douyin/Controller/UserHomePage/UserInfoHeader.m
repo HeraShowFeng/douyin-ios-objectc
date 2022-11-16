@@ -302,12 +302,12 @@ static const NSTimeInterval kAnimationDefaultDuration = 0.25;
 
 - (void)initData:(User *)user {
     __weak __typeof(self) wself = self;
-    [_avatar setImageWithURL:[NSURL URLWithString:user.avatar_medium.url_list.firstObject] completedBlock:^(UIImage *image, NSError *error) {
-        [wself.bottomBackground setImage:image];
-        [wself.avatar setImage:[image drawCircleImage]];
-    }];
+//    [_avatar setImageWithURL:[NSURL URLWithString:user.avatar_medium.url_list.firstObject] completedBlock:^(UIImage *image, NSError *error) {
+//        [wself.bottomBackground setImage:image];
+//        [wself.avatar setImage:[image drawCircleImage]];
+//    }];
     //新增的背景数据写为指定路径
-    [_topBackground setImageWithURL:[NSURL URLWithString:@"http://pb3.pstatp.com/obj/dbc1001cd29ccc479f7f"]];
+//    [_topBackground setImageWithURL:[NSURL URLWithString:@"http://pb3.pstatp.com/obj/dbc1001cd29ccc479f7f"]];
     [_nickName setText:user.nickname];
     [_douyinNum setText:[NSString stringWithFormat:@"抖音号:%@", user.short_id]];
     if(![user.signature isEqual: @""]) {

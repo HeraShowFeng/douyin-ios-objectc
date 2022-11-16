@@ -314,14 +314,14 @@ NSString * const kAwemeCollectionCell  = @"AwemeCollectionCell";
     __weak typeof (self) wself = self;
     UserRequest *request = [UserRequest new];
     request.uid = _uid;
-    [NetworkHelper getWithUrlPath:FindUserByUidPath request:request success:^(id data) {
-        UserResponse *response = [[UserResponse alloc] initWithDictionary:data error:nil];
+//    [NetworkHelper getWithUrlPath:FindUserByUidPath request:request success:^(id data) {
+        UserResponse *response = [[UserResponse alloc] initWithDictionary:[NSString readJson2DicWithFileName:@"user"] error:nil];
         wself.user = response.data;
         [wself setTitle:self.user.nickname];
         [wself.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
-    } failure:^(NSError *error) {
-        [UIWindow showTips:error.description];
-    }];
+//    } failure:^(NSError *error) {
+//        [UIWindow showTips:error.description];
+//    }];
 }
 
 - (void)loadData:(NSInteger)pageIndex pageSize:(NSInteger)pageSize {
@@ -331,13 +331,12 @@ NSString * const kAwemeCollectionCell  = @"AwemeCollectionCell";
     request.uid = _uid;
     __weak typeof (self) wself = self;
     if(_tabIndex == 0) {
-        [NetworkHelper getWithUrlPath:FindAwemePostByPagePath request:request success:^(id data) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+//        [NetworkHelper getWithUrlPath:FindAwemePostByPagePath request:request success:^(id data) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
                 if(wself.tabIndex != 0) {
                     return;
                 }
-                NSLog(@"hera -- data %@", data);
-                AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:data error:nil];
+                AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:[NSString readJson2DicWithFileName:@"awemes"] error:nil];
                 NSArray<Aweme *> *array = response.data;
                 wself.pageIndex++;
                 
@@ -358,19 +357,19 @@ NSString * const kAwemeCollectionCell  = @"AwemeCollectionCell";
                 if(!response.has_more) {
                     [wself.loadMore loadingAll];
                 }
-            });
-        } failure:^(NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [wself.loadMore loadingFailed];
-            });
-        }];
+//            });
+//        } failure:^(NSError *error) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [wself.loadMore loadingFailed];
+//            });
+//        }];
     }else {
-        [NetworkHelper getWithUrlPath:FindAwemeFavoriteByPagePath request:request success:^(id data) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+//        [NetworkHelper getWithUrlPath:FindAwemeFavoriteByPagePath request:request success:^(id data) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
                 if(wself.tabIndex != 1) {
                     return;
                 }
-                AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:data error:nil];
+                AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:[NSString readJson2DicWithFileName:@"favorites"] error:nil];
                 NSArray<Aweme *> *array = response.data;
                 wself.pageIndex++;
                 
@@ -391,12 +390,12 @@ NSString * const kAwemeCollectionCell  = @"AwemeCollectionCell";
                 if(!response.has_more) {
                     [wself.loadMore loadingAll];
                 }
-            });
-        } failure:^(NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [wself.loadMore loadingFailed];
-            });
-        }];
+//            });
+//        } failure:^(NSError *error) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [wself.loadMore loadingFailed];
+//            });
+//        }];
     }
 }
 @end

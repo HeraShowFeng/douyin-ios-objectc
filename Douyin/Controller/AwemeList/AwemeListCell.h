@@ -45,6 +45,8 @@ typedef void (^OnPlayerReady)(void);
 @property (nonatomic, strong) OnPlayerReady    onPlayerReady;
 @property (nonatomic, assign) BOOL             isPlayerReady;
 
+@property (nonatomic, strong) NSMutableDictionary *jsonDic;
+
 - (void)initData:(Aweme *)aweme;
 - (void)play;
 - (void)pause;

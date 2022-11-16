@@ -34,7 +34,6 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
 
 @property (nonatomic, assign) NSTimeInterval startTime;
 @property (nonatomic, assign) NSTimeInterval connectTime;
-@property (nonatomic, strong) NSMutableDictionary *jsonDic;
 @end
 
 @implementation AwemeListCell
@@ -49,7 +48,6 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
         
         _startTime = 0;
         _connectTime = 0;
-        _jsonDic = [NSMutableDictionary dictionary];
         
         [self initSubViews];
     }
@@ -296,12 +294,12 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
     request.aweme_id = _aweme.aweme_id;
     request.udid = UDID;
     request.text = text;
-    [NetworkHelper postWithUrlPath:PostComentPath request:request success:^(id data) {
-        [UIWindow showTips:@"评论成功"];
-    } failure:^(NSError *error) {
+//    [NetworkHelper postWithUrlPath:PostComentPath request:request success:^(id data) {
+//        [UIWindow showTips:@"评论成功"];
+//    } failure:^(NSError *error) {
         wself.hoverTextView.textView.text = text;
-        [UIWindow showTips:@"评论失败"];
-    }];
+//        [UIWindow showTips:@"评论失败"];
+//    }];
 }
 
 //HoverTextViewDelegate delegate
@@ -511,16 +509,16 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
     [_shareNum setText:[NSString formatCount:aweme.statistics.share_count]];
 
     __weak __typeof(self) wself = self;
-    [_musicAlum.album setImageWithURL:[NSURL URLWithString:aweme.music.cover_thumb.url_list.firstObject] completedBlock:^(UIImage *image, NSError *error) {
-        if(!error) {
-            wself.musicAlum.album.image = [image drawCircleImage];
-        }
-    }];
-    [_avatar setImageWithURL:[NSURL URLWithString:aweme.author.avatar_thumb.url_list.firstObject] completedBlock:^(UIImage *image, NSError *error) {
-        if(!error) {
-            wself.avatar.image = [image drawCircleImage];
-        }
-    }];
+//    [_musicAlum.album setImageWithURL:[NSURL URLWithString:aweme.music.cover_thumb.url_list.firstObject] completedBlock:^(UIImage *image, NSError *error) {
+//        if(!error) {
+//            wself.musicAlum.album.image = [image drawCircleImage];
+//        }
+//    }];
+//    [_avatar setImageWithURL:[NSURL URLWithString:aweme.author.avatar_thumb.url_list.firstObject] completedBlock:^(UIImage *image, NSError *error) {
+//        if(!error) {
+//            wself.avatar.image = [image drawCircleImage];
+//        }
+//    }];
     
 }
 

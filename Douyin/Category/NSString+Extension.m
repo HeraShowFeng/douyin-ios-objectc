@@ -16,6 +16,9 @@
 
 //计算单行文本行高、支持包含emoji表情符的计算。开头空格、自定义插入的文本图片不纳入计算范围
 - (CGSize)singleLineSizeWithAttributeText:(UIFont *)font {
+    if ([font.fontName isEqualToString:@".SFUI-Regular"]) {
+        font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:font.pointSize];
+    }
     CTFontRef cfFont = CTFontCreateWithName((CFStringRef) font.fontName, font.pointSize, NULL);
     CGFloat leading = font.lineHeight - font.ascender + font.descender;
     CTParagraphStyleSetting paragraphSettings[1] = { kCTParagraphStyleSpecifierLineSpacingAdjustment, sizeof (CGFloat), &leading };

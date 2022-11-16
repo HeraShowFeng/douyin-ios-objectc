@@ -181,9 +181,9 @@ NSString *const FindComentByPagePath = @"comment/list";
     [[NetworkHelper shareReachabilityManager] startMonitoring];
     [[NetworkHelper shareReachabilityManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NetworkStatesChangeNotification object:nil];
-        if(![NetworkHelper isNotReachableStatus:status]) {
-            [NetworkHelper registerUserInfo];
-        }
+//        if(![NetworkHelper isNotReachableStatus:status]) {
+//            [NetworkHelper registerUserInfo];
+//        }
     }];
 }
 

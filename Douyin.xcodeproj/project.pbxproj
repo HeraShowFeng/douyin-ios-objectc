@@ -959,6 +959,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Douyin",
+					"\"$(SRCROOT)/Douyin/Miku.framework\"",
 				);
 				GCC_PREFIX_HEADER = "$SRCROOT/Douyin/Douyin+prefix+Header.pch";
 				INFOPLIST_FILE = Douyin/Info.plist;
@@ -986,6 +987,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Douyin",
+					"\"$(SRCROOT)/Douyin/Miku.framework\"",
 				);
 				GCC_PREFIX_HEADER = "$SRCROOT/Douyin/Douyin+prefix+Header.pch";
 				INFOPLIST_FILE = Douyin/Info.plist;

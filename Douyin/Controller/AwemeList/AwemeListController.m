@@ -29,6 +29,8 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
 @property (nonatomic, strong) NSMutableArray<Aweme *>           *awemes;
 @property (nonatomic, strong) LoadMoreControl                      *loadMore;
 
+@property (nonatomic, strong) NSMutableDictionary *jsonDic;
+
 @end
 
 @implementation AwemeListController
@@ -45,6 +47,7 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
         
         _awemes = [data mutableCopy];
         _data = [[NSMutableArray alloc] initWithObjects:[_awemes objectAtIndex:_currentIndex], nil];
+        _jsonDic = [NSMutableDictionary dictionary];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarTouchBegin) name:@"StatusBarTouchBeginNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationBecomeActive) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -127,6 +130,7 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //填充视频数据
     AwemeListCell *cell = [tableView dequeueReusableCellWithIdentifier:kAwemeListCell forIndexPath:indexPath];
+    cell.jsonDic = _jsonDic;
     [cell initData:_data[indexPath.row]];
     [cell startDownloadBackgroundTask];
     return cell;
@@ -213,8 +217,8 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
     request.size = pageSize;
     request.uid = _uid;
     if(_awemeType == AwemeWork) {
-        [NetworkHelper getWithUrlPath:FindAwemePostByPagePath request:request success:^(id data) {
-            AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:data error:nil];
+//        [NetworkHelper getWithUrlPath:FindAwemePostByPagePath request:request success:^(id data) {
+            AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:[NSString readJson2DicWithFileName:@"awemes"] error:nil];
             NSArray<Aweme *> *array = response.data;
             if(array.count > 0) {
                 wself.pageIndex++;
@@ -232,12 +236,12 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
             }else {
                 [wself.loadMore loadingAll];
             }
-        } failure:^(NSError *error) {
-            [wself.loadMore loadingFailed];
-        }];
+//        } failure:^(NSError *error) {
+//            [wself.loadMore loadingFailed];
+//        }];
     }else {
-        [NetworkHelper getWithUrlPath:FindAwemeFavoriteByPagePath request:request success:^(id data) {
-            AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:data error:nil];
+//        [NetworkHelper getWithUrlPath:FindAwemeFavoriteByPagePath request:request success:^(id data) {
+            AwemeListResponse *response = [[AwemeListResponse alloc] initWithDictionary:[NSString readJson2DicWithFileName:@"favorites"] error:nil];
             NSArray<Aweme *> *array = response.data;
             if(array.count > 0) {
                 wself.pageIndex++;
@@ -254,9 +258,9 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
             }else {
                 [wself.loadMore loadingAll];
             }
-        } failure:^(NSError *error) {
-            [wself.loadMore loadingFailed];
-        }];
+//        } failure:^(NSError *error) {
+//            [wself.loadMore loadingFailed];
+//        }];
     }
 }
 

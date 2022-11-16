@@ -261,8 +261,8 @@ NSString * const kCommentFooterCell   = @"CommentFooterCell";
     request.page = pageIndex;
     request.size = pageSize;
     request.aweme_id = _awemeId;
-    [NetworkHelper getWithUrlPath:FindComentByPagePath request:request success:^(id data) {
-        CommentListResponse *response = [[CommentListResponse alloc] initWithDictionary:data error:nil];
+//    [NetworkHelper getWithUrlPath:FindComentByPagePath request:request success:^(id data) {
+        CommentListResponse *response = [[CommentListResponse alloc] initWithDictionary:[NSString readJson2DicWithFileName:@"comments"] error:nil];
         NSArray<Comment *> *array = response.data;
         
         wself.pageIndex++;
@@ -284,9 +284,9 @@ NSString * const kCommentFooterCell   = @"CommentFooterCell";
             [wself.loadMore loadingAll];
         }
         wself.label.text = [NSString stringWithFormat:@"%ld条评论",(long)response.total_count];
-    } failure:^(NSError *error) {
-        [wself.loadMore loadingFailed];
-    }];
+//    } failure:^(NSError *error) {
+//        [wself.loadMore loadingFailed];
+//    }];
 }
 
 //UIScrollViewDelegate Delegate
@@ -400,11 +400,11 @@ NSString * const kCommentFooterCell   = @"CommentFooterCell";
         _nickName.text = [comment.visitor formatUDID];
     }
     
-    __weak __typeof(self) wself = self;
-    [_avatar setImageWithURL:avatarUrl completedBlock:^(UIImage *image, NSError *error) {
-        image = [image drawCircleImage];
-        wself.avatar.image = image;
-    }];
+//    __weak __typeof(self) wself = self;
+//    [_avatar setImageWithURL:avatarUrl completedBlock:^(UIImage *image, NSError *error) {
+//        image = [image drawCircleImage];
+//        wself.avatar.image = image;
+//    }];
     _content.text = comment.text;
     _date.text = [NSDate formatTime:comment.create_time];
     _likeNum.text = [NSString formatCount:comment.digg_count];

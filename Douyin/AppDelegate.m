@@ -22,7 +22,7 @@
     [_window makeKeyAndVisible];
 
     [NetworkHelper startListening];
-    [[WebSocketManager shareManager] connect];
+//    [[WebSocketManager shareManager] connect];
     [AVPlayerManager setAudioMode];
     
     [[MikuManager shareInstance] setMikuEnabled:YES];
