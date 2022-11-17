@@ -116,7 +116,7 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
 }
 
 #pragma tableView delegate
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

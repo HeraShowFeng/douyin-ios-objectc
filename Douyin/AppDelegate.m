@@ -27,7 +27,7 @@
     
     [[MikuManager shareInstance] setMikuEnabled:YES];
     
-    [self requestPermission];
+//    [self requestPermission];
     
     return YES;
 }

@@ -62,6 +62,7 @@
 @property (nonatomic , assign) BOOL              can_play;
 @property (nonatomic , assign) BOOL              is_vr;
 @property (nonatomic , copy) NSArray<Text_extra *>              * text_extra;
+@property (nonatomic , copy) NSString              * test_url;
 @end
 
 @interface Video_text :BaseModel
