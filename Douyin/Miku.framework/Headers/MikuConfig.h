@@ -7,7 +7,6 @@
 
 #import <Foundation/Foundation.h>
 #import "MikuDNSResolver.h"
-#import "MikuHttpClient.h"
 #import "MikuCacheConfig.h"
 #import "MikuCacheUrl.h"
 
@@ -15,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MikuConfig : NSObject
 
-@property (nonatomic, strong) MikuDNSResolver *NS;
+@property (nonatomic, strong) MikuDNSResolver *resolver;
 @property (nonatomic, assign) BOOL httpDNS;
 @property (nonatomic, strong) MikuCacheConfig *cacheConfig;
 @property (nonatomic, strong) MikuCacheUrl *cacheUrl;

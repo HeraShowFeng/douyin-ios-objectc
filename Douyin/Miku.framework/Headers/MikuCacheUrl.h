@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MikuCacheUrl : NSObject
 
-- (NSString *)cacheUrl:(NSString *)url;
+- (NSString *)cacheUrlFn:(NSString *)url;
 
 @end
 

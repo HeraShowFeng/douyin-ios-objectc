@@ -52,6 +52,7 @@
     if (_useMikuEnabled) {
         mikuUrl = [_client makeProxyURL:urlStr].absoluteString;
     }
+    NSLog(@"hera -- urlStr %@ mikuUrl %@", urlStr, mikuUrl);
     return mikuUrl;
 }
 

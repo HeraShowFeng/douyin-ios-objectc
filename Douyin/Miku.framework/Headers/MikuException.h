@@ -11,8 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MikuException : NSException
 
-- (NSString *)getMessage;
-
 @end
 
 NS_ASSUME_NONNULL_END

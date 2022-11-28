@@ -66,6 +66,7 @@
 
 //设置播放路径
 -(void)setPlayerWithUrl:(NSString *)url {
+    _playUrl = url;
     // Miku
     NSString *mikuUrl = [[MikuManager shareInstance] getProxyURL:url];
     
@@ -313,9 +314,10 @@
     //AVPlayerItem.status
     if([keyPath isEqualToString:@"status"]) {
         if(_playerItem.status == AVPlayerItemStatusFailed) {
-            if(!_retried) {
-                [self retry];
-            }
+            [self setPlayerWithUrl:_playUrl];
+//            if(!_retried) {
+//                [self retry];
+//            }
         }
         //视频源装备完毕，则显示playerLayer
         if(_playerItem.status == AVPlayerItemStatusReadyToPlay) {

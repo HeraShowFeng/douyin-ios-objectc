@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MikuCacheConfig : NSObject
 
 @property (nonatomic, strong) NSString * dir;
-@property (nonatomic, strong) NSString * DSN;
+@property (nonatomic, strong) NSString * dbName;
 @property (nonatomic, assign) int64_t cacheSize;
 
 @end

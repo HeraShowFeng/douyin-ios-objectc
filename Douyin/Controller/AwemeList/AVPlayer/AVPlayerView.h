@@ -28,6 +28,7 @@
 
 //播放进度、状态更新代理
 @property(nonatomic, weak) id<AVPlayerUpdateDelegate> delegate;
+@property(nonatomic, copy) NSString *playUrl;
 
 //设置播放路径
 - (void)setPlayerWithUrl:(NSString *)url;

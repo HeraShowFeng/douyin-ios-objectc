@@ -9,8 +9,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MikuInputStream;
-
 @interface MikuResponse : NSObject
 @property (nonatomic, strong, readonly) NSDictionary * headers;
 @end
