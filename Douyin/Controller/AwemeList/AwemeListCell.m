@@ -449,8 +449,8 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
             [self startLoadingPlayItemAnim:YES];
             break;
         case AVPlayerItemStatusReadyToPlay:
-            _connectTime = [[NSDate date] timeIntervalSince1970] * 1000 - _startTime;
-            NSLog(@"hera -- %@ connectTime:%.4fms", _aweme.test_url, _connectTime);
+//            _connectTime = [[NSDate date] timeIntervalSince1970] * 1000 - _startTime;
+//            NSLog(@"hera -- %@ connectTime:%.4fms", _aweme.test_url, _connectTime);
             [self startLoadingPlayItemAnim:NO];
             
             _isPlayerReady = YES;
@@ -532,23 +532,23 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
 }
 
 - (void)startDownloadBackgroundTask {
-    if (![_aweme.test_url containsString:@"test"]) {
-//        NSLog(@"hera -- _aweme.test_url %@", _aweme.test_url);
-        [_playerView setPlayerWithUrl:_aweme.test_url];
-    } else{
+//    if (![_aweme.test_url containsString:@"test"]) {
+////        NSLog(@"hera -- _aweme.test_url %@", _aweme.test_url);
+//        [_playerView setPlayerWithUrl:_aweme.test_url];
+//    } else{
         NSString *playUrl = [NetworkHelper isWifiStatus] ? _aweme.video.play_addr.url_list.firstObject : _aweme.video.play_addr_lowbr.url_list.firstObject;
 //        NSLog(@"hera -- playUrl %@", playUrl);
         [_playerView setPlayerWithUrl:playUrl];
-    }
+//    }
 }
 
 - (void)startDownloadHighPriorityTask {
     NSString *url = @"";
-    if (![_aweme.test_url containsString:@"test"]) {
-        url = _aweme.test_url;
-    } else {
+//    if (![_aweme.test_url containsString:@"test"]) {
+//        url = _aweme.test_url;
+//    } else {
         url = [NetworkHelper isWifiStatus] ? _aweme.video.play_addr.url_list.firstObject : _aweme.video.play_addr_lowbr.url_list.firstObject;
-    }
+//    }
 //    [_playerView startDownloadTask:[[NSURL alloc] initWithString:url] isBackground:NO];
 }
 
