@@ -44,6 +44,7 @@
 
 - (NSString *)getProxyURL:(NSString *)urlStr {
     if ([urlStr isEqualToString:@""] || urlStr.length == 0) {
+        NSLog(@"hera -- urlStr is nil!");
         return nil;
     }
     
